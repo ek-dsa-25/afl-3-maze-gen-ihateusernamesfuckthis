@@ -18,8 +18,12 @@ class Cell {
     }
 
     draw(ctx, cellWidth) {
-        ctx.strokeStyle = '#000000';
-        ctx.lineWidth = 4;
+
+        const hue = Math.random() * 360;
+
+        ctx.strokeStyle = `hsl(${hue}, 70%, 40%)`;
+        ctx.lineWidth = 2;
+
         ctx.beginPath();
 
         const px = this.x * cellWidth;
@@ -179,7 +183,12 @@ class Maze {
                 currentCell = randomNeighborCell;
                 currentCell.visited = true;
             } else {
-                currentCell = stack.pop();
+                if (Math.random() < 0.25) {
+                    const randomIndex = randomInteger(0, stack.length);
+                    currentCell = stack.splice(randomIndex, 1)[0];
+                } else {
+                    currentCell = stack.pop();
+                }
             }
         }
     }
@@ -195,4 +204,4 @@ document.addEventListener('DOMContentLoaded', () => {
     maze.draw();
 
     console.log(maze);
-})
+    })
